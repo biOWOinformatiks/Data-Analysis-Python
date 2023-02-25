@@ -1,0 +1,26 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generate some sample data
+x = np.linspace(0, 10, 100)
+y1 = np.sin(x)
+y2 = np.cos(x)
+
+# Create a custom plot with multiple subplots
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 8))
+
+# Add the first subplot
+ax1.plot(x, y1, color='blue', linewidth=2, label='sin(x)')
+ax1.set_title('Plot of sin(x) and cos(x)')
+ax1.set_xlabel('x')
+ax1.set_ylabel('y')
+ax1.legend()
+
+# Add the second subplot
+ax2.plot(x, y2, color='red', linewidth=2, label='cos(x)')
+ax2.set_xlabel('x')
+ax2.set_ylabel('y')
+ax2.legend()
+
+# Save the plot as a PDF file
+plt.savefig('custom_plot.pdf')
