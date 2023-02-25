@@ -1,0 +1,17 @@
+import numpy as np
+
+# Generate a 2D array of random numbers
+arr = np.random.rand(10, 10)
+
+# Calculate the mean and standard deviation of the array
+mean = np.mean(arr)
+std = np.std(arr)
+
+# Normalize the array by subtracting the mean and dividing by the standard deviation
+arr_norm = (arr - mean) / std
+
+# Multiply the array by a random 2D array of the same size
+arr_mult = arr_norm * np.random.rand(10, 10)
+
+# Save the resulting array to a file
+np.savetxt('output
