@@ -1,0 +1,27 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the gene expression data and metadata
+counts = pd.read_csv('counts.csv', index_col=0)
+metadata = pd.read_csv('metadata.csv', index_col=0)
+
+# Filter out lowly-expressed genes
+counts = counts[counts.sum(axis=1) > 10]
+
+# Add a column to the metadata indicating whether each sample is a tumor or normal tissue
+metadata['tumor'] = metadata['sample_type'].str.contains('tumor')
+
+# Normalize the gene expression data by total read count and log2-transform the data
+counts_norm = counts.div(counts.sum(axis=0), axis=1).apply(lambda x: pd.Series.map(x, lambda y: np.log2(y + 1)))
+
+# Calculate the average expression of each gene in the tumor and normal samples
+tumor_mean = counts_norm.loc[:, metadata['tumor']].mean(axis=1)
+normal_mean = counts_norm.loc[:, ~metadata['tumor']].mean(axis=1)
+
+# Plot the distribution of gene expression in the tumor and normal samples
+plt.hist(tumor_mean, bins=50, alpha=0.5, label='Tumor')
+plt.hist(normal_mean, bins=50, alpha=0.5, label='Normal')
+plt.xlabel('Gene expression (log2 TPM)')
+plt.ylabel('Number of genes')
+plt.legend()
+plt.show()
